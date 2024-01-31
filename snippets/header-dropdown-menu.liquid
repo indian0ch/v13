@@ -45,7 +45,10 @@
                         {{ childlink.title | escape }}
                       </a>
                     {%- else -%}
-                      <details id="Details-HeaderSubMenu-{{ link.handle }}-{{ childlink.handle }}">
+                      <details
+                        id="Details-HeaderSubMenu-{{ link.handle }}-{{ childlink.handle }}"
+                        style="    height: 40px;"
+                      >
                         <summary
                           id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
                           class="header__menu-item link link--text list-menu__item focus-inset caption-large"
@@ -55,10 +58,11 @@
                         </summary>
                         <ul
                           id="HeaderMenu-SubMenuList-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                          class="header__submenu list-menu motion-reduce"
+                          class="header__submenu header__subsubmenu list-menu motion-reduce"
+                          style="position: relative; right: -285px; top: -80px; background-color: white; z-index: 2; box-shadow: 0 2px 70px rgba(0, 0, 0, 0.1); width:900px; "
                         >
                           {%- for grandchildlink in childlink.links -%}
-                            <li>
+                            <li class="grid-item">
                               <a
                                 id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
                                 href="{{ grandchildlink.url }}"
@@ -67,7 +71,18 @@
                                   aria-current="page"
                                 {% endif %}
                               >
-                                {{ grandchildlink.title | escape }}
+                                {% for collection in collections %}
+                                  {% if grandchildlink.title == collection.title %}
+                                    <div class="grid-item-inner">
+                                      <img
+                                        src="{{ collection.image.src | img_url: '100x100' }}"
+                                        alt="{{ collection.title | escape }}"
+                                        loading="lazy"
+                                      >
+                                      <span>{{ collection.title | escape }}</span>
+                                    </div>
+                                  {% endif %}
+                                {% endfor %}
                               </a>
                             </li>
                           {%- endfor -%}
@@ -101,3 +116,26 @@
     {%- endfor -%}
   </ul>
 </nav>
+
+<style>
+  .header__subsubmenu {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Adjust the number of columns as needed */
+    gap: 10px; /* Adjust the gap between items */
+    padding: 20px; /* Add padding as needed */
+  }
+
+  .grid-item {
+    list-style-type: none;
+  }
+
+  .grid-item-inner {
+    text-align: center;
+  }
+
+  .grid-item-inner img {
+    max-width: 100%;
+    height: 100px;
+    width:100px;
+  }
+</style>

@@ -17,7 +17,7 @@
         "share_on_pinterest": "Pin på Pinterest"
       },
       "links": {
-        "twitter": "X",
+        "twitter": "Twitter",
         "facebook": "Facebook",
         "pinterest": "Pinterest",
         "instagram": "Instagram",
@@ -206,8 +206,7 @@
       "clear_filter": "Fjern filter",
       "filter_selected_accessibility": "{{ type }} ({{ count }} filtre er valgt)",
       "show_more": "Vis mere",
-      "show_less": "Vis mindre",
-      "filter_and_operator_subtitle": "Match alle"
+      "show_less": "Vis mindre"
     }
   },
   "templates": {
@@ -358,18 +357,14 @@
       "total_items": "Varer i alt",
       "remove_all_items_confirmation": "Vil du fjerne alle {{ quantity }} varer fra din indkøbskurv?",
       "remove_all": "Fjern alle",
-      "cancel": "Annuller",
-      "remove_all_single_item_confirmation": "Vil du fjerne 1 vare fra din indkøbskurv?"
+      "cancel": "Annuller"
     }
   },
   "localization": {
     "country_label": "Land/område",
     "language_label": "Sprog",
     "update_language": "Opdater sprog",
-    "update_country": "Opdater land/område",
-    "search": "Søg",
-    "popular_countries_regions": "Populære lande/områder",
-    "country_results_count": "{{ count }} lande/områder er fundet"
+    "update_country": "Opdater land/område"
   },
   "customer": {
     "account": {

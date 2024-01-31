@@ -206,8 +206,7 @@
       "clear_filter": "Filter verwijderen",
       "filter_selected_accessibility": "{{ type }} ({{ count }} filters geselecteerd)",
       "show_more": "Meer weergeven",
-      "show_less": "Minder weergeven",
-      "filter_and_operator_subtitle": "Alles matchen"
+      "show_less": "Minder weergeven"
     }
   },
   "templates": {
@@ -358,18 +357,14 @@
       "total_items": "Totaal aantal artikelen",
       "remove_all_items_confirmation": "Alle {{ quantity }} artikelen uit je winkelwagen verwijderen?",
       "remove_all": "Alles verwijderen",
-      "cancel": "Annuleren",
-      "remove_all_single_item_confirmation": "1 artikel uit je winkelwagen verwijderen?"
+      "cancel": "Annuleren"
     }
   },
   "localization": {
     "country_label": "Land/regio",
     "language_label": "Taal",
     "update_language": "Taal bijwerken",
-    "update_country": "Land/regio bijwerken",
-    "search": "Zoeken",
-    "popular_countries_regions": "Populaire landen/regio's",
-    "country_results_count": "{{ count }} landen/regio's gevonden"
+    "update_country": "Land/regio bijwerken"
   },
   "customer": {
     "account": {

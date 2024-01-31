@@ -1,0 +1,344 @@
+{%- style -%}
+  .breadcrumbs {
+    /* font-size: .85em;
+    margin-top: 4px; */
+    width: 100%;
+    position: relative;
+    padding: 0 0 0 15px;
+  }
+
+  .breadcrumbs ol {
+    /* list-style-type: none;
+    margin: 0;
+    padding: 0; */
+    overflow-y: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin: 14px 0 5px;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+  .breadcrumbs li {
+    /* display: inline-block; */
+    display: flex;
+    font-size: 12px;
+    font-weight: 400;
+    color: #4c4c4c;
+    white-space: nowrap;
+    word-wrap: break-word;
+  }
+
+  .breadcrumbs a {
+    text-decoration: none;
+  }
+
+  .breadcrumbs li:not(:last-child):after {
+    content: "›\00a0";
+    display: inline-block;
+    padding-left: .75ch;
+    speak: none;
+  }
+
+  .breadcrumbs [aria-current="page"] {
+    color: inherit;
+    font-weight: normal;
+    text-decoration: none;
+  }
+
+  .breadcrumbs [aria-current="page"]:hover,
+  .breadcrumbs [aria-current="page"]:focus {
+    text-decoration: underline;
+  }
+{%- endstyle -%}
+
+{% unless template == 'index' or template == 'cart' or template == 'list-collections' or template == '404' %}
+  {% assign t = template | split: '.' | first %}
+
+  <nav class="breadcrumbs page-width" role="navigation" aria-label="breadcrumbs">
+    <ol>
+      <li>
+        <a id="golovna-link" style="color: black;" href="/"></a>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+              var currentUrl = window.location.href;
+                  const link = document.getElementById("golovna-link");
+              if (currentUrl.includes("/ru/")) {
+                link.textContent = "Главная";
+                link.href="/ru/";
+              } else{
+                  link.textContent = "Головна";
+                link.href="/";
+              }
+            });
+        </script>
+      </li>
+
+      {% case t %}
+        {% when 'page' %}
+          <li>
+            <a href="{{ page.url }}" aria-current="page">{{ page.title }}</a>
+          </li>
+
+          <!--
+            {% if collection.url %}
+              <li>
+                {{ collection.title | link_to: collection.url }}
+              </li>
+            {% endif %}
+          -->
+
+        {% when 'product' %}
+          {% assign sortedCollections = product.collections | sort: 'published_at' %}
+
+          {% for collection in sortedCollections %}
+            {% if collection.title != 'Акційний товар'
+              and collection.title != 'Акционный товар'
+              and collection.title != 'Акційні пропозиції (01.02-14.02)'
+              and collection.title != 'Акционные предложения (01.02-14.02)'
+              and collection.title != 'Топ продажів'
+              and collection.title != 'Топ продаж'
+              and collection.title != 'Спеціально для вас'
+              and collection.title != 'Специально для вас'
+              and collection.title != 'Vitals'
+              and collection.title != 'Новинки'
+              and collection.title != 'Sturm'
+              and collection.title != 'Popular'
+              and collection.title != 'Tekhman'
+              and collection.title != 'текман'
+              and collection.title != 'DWT'
+              and collection.title != 'Karcher'
+              and collection.title != 'Bosch'
+              and collection.title != 'Gartner'
+              and collection.title != 'Nowa'
+              and collection.title != 'Дніпро-М'
+              and collection.title != 'Днепр-М'
+              and collection.title != 'Кентавр'
+              and collection.title != 'STANLEY'
+              and collection.title != 'Metabo'
+              and collection.title != 'JET'
+              and collection.title != 'Crown'
+              and collection.title != 'YATO'
+              and collection.title != 'Зеніт'
+              and collection.title != 'Зенит'
+              and collection.title != 'Акційний Дніпро-м'
+              and collection.title != 'Акционный Днепр-м'
+              and collection.title != 'Акційні Шуруповерти'
+              and collection.title != 'Акционные Шуруповерты'
+              and collection.title != 'Неакційний Vitals'
+              and collection.title != 'Неакционный Vitals'
+              and collection.title != 'Популярні позиції'
+              and collection.title != 'Популярные позиции'
+              and collection.title != 'Неакційний Дніпро-М'
+              and collection.title != 'Неакционный Днепр-М'
+              and collection.title != 'Акційні перфоратори'
+              and collection.title != 'Акционные перфораторы'
+              and collection.title != 'Акційний Vitals'
+              and collection.title != 'Акционный Vitals'
+            %}
+              <li>
+                <a href="{{ collection.url }}" aria-current="page">{{ collection.title }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          <li>
+            <a href="{{ product.url }}" aria-current="page">{{ product.title }}</a>
+          </li>
+
+        {% when 'collection' and collection.handle %}
+          {% if current_tags %}
+            <li>{{ collection.title | link_to: collection.url }}</li>
+            <li>
+              {% capture tag_url %}{{ collection.url }}/{{ current_tags | join: "+"}}{% endcapture %}
+              <a href="{{ tag_url }}" aria-current="page">{{ current_tags | join: ' + ' }}</a>
+            </li>
+          {% else %}
+            {% if collection.title == 'Акумуляторні шуруповерти'
+              or collection.title == 'Акумулятори та зарядні пристрої'
+            %}
+              <li>
+                <a
+                  href="https://gorkabud.com.ua/collections/%D0%B0%D0%BA%D1%83%D0%BC%D1%83%D0%BB%D1%8F%D1%82%D0%BE%D1%80%D0%BD%D0%B8%D0%B9-%D1%96%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82"
+                  aria-current="page"
+                  >Акумуляторний інструмент</a
+                >
+              </li>
+            {% endif %}
+            {% assign elektroTools = 'Гравери,Дриль,Лазерна вимірювальна техніка,Електролобзики,Міксери будівельні,Паяльники для труб,Шліфувальні машини,Шабельні пили,Циркулярні пили,Фени будівельні,Фрезери,Електрорубанки,Пістолети термоклейові,Полірувальні машини,Перфоратори,Шуруповерти мережеві,Фарбопульти електричні,Гвинтоверти та гайковерти,Болгарки (КШМ),Тельфери,Пилососи будівельні,Відбійні молотки,Плиткорізи електричні,Обігрівачі та Тепловентилятори'
+              | split: ','
+            %}
+
+            {% if elektroTools contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/collections/elektroinstrument" aria-current="page"
+                  >Електроінструменти</a
+                >
+              </li>
+            {% endif %}
+            {% assign elektroToolsRu = 'Граверы,Дрель,Лазерная измерительная техника,Электролобзики,Миксеры строительные,Паяльники для труб,Шлифовальные машины,Шабельные пилы,Циркулярные пилы,Фены строительные,Фрезеры,Электрорубанки,Пистолеты термоклеевые,Полировочные машины,Перфораторы,Шуруповерты сетевые,Краскопульты электрические,Винтоверты и гайковерты,Болгарки,Тельферы,Пылесосы строительные,Отбойные молотки,Плиткорезы электрические,Обогреватели и Тепловентиляторы'
+              | split: ','
+            %}
+
+            {% if elektroToolsRu contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/ru/collections/elektroinstrument" aria-current="page"
+                  >Электроинструменты</a
+                >
+              </li>
+            {% endif %}
+            {% assign zvarTools = 'Зварювальні апарати,Маски зварника,Плазморізи' | split: ',' %}
+
+            {% if zvarTools contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/collections/зварювальне-обладнання" aria-current="page"
+                  >Зварювальне обладнання та аксесуари</a
+                >
+              </li>
+            {% endif %}
+            {% assign zvarToolsRu = 'Сварочные аппараты,Маски сварщика,Плазморезы' | split: ',' %}
+
+            {% if zvarToolsRu contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/ru/collections/зварювальне-обладнання" aria-current="page"
+                  >Сварочное оборудование и аксессуары</a
+                >
+              </li>
+            {% endif %}
+            {% assign avtoTools = 'Мийки високого тиску,Набори інструментів,Пускові зарядні пристрої,Автомобільні компресори'
+              | split: ','
+            %}
+
+            {% if avtoTools contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/collections/instrumenty-dlya-avto" aria-current="page">Автотовари</a>
+              </li>
+            {% endif %}
+            {% assign avtoToolsRu = 'Мойки высокого давления,Наборы инструментов,Пусковые зарядные устройства,Автомобильные компрессоры'
+              | split: ','
+            %}
+
+            {% if avtoToolsRu contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/ru/collections/instrumenty-dlya-avto" aria-current="page"
+                  >Автотовары</a
+                >
+              </li>
+            {% endif %}
+            {% assign powerTools = 'Мотопомпи,Генератори,Компресори,Двигуни' | split: ',' %}
+
+            {% if powerTools contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/collections/sylova-tekhnika" aria-current="page">Силова техніка</a>
+              </li>
+            {% endif %}
+            {% assign powerToolsRu = 'Мотопомпы,Генераторы,Компрессоры,Двигатели' | split: ',' %}
+
+            {% if powerToolsRu contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/ru/collections/sylova-tekhnika" aria-current="page">Силовая техника</a>
+              </li>
+            {% endif %}
+            {% assign gardenTools = 'Газонокосарки,Повітродувки,Кущорізи,Тримери та Мотокоси,Оприскувачі,Пилососи садові,Ланцюгові пили,Електропили,Бензопили,Акумуляторні пили'
+              | split: ','
+            %}
+
+            {% if gardenTools contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/collections/sadovo-parkova-tekhnika" aria-current="page"
+                  >Садова техніка та інструменти</a
+                >
+              </li>
+            {% endif %}
+            {% assign gardenToolsRu = 'Газонокосилки,Воздухородувки,Кусторезы,Триммеры и Мотокосы,Опрыскиватели,Пылесосы садовые,Цепные пилы,Электропилы,Бензопилы,Аккумуляторные пилы'
+              | split: ','
+            %}
+
+            {% if gardenToolsRu contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/ru/collections/sadovo-parkova-tekhnika" aria-current="page"
+                  >Садовая техника и инструменты</a
+                >
+              </li>
+            {% endif %}
+            {% assign verstatTools = 'Торцювальні пили,Рейсмуси,Монтажні пили,Верстати для заточування ланцюгів'
+              | split: ','
+            %}
+
+            {% if verstatTools contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/collections/verstaty-po-derevu-ta-metalu" aria-current="page"
+                  >Верстати по дереву та металу</a
+                >
+              </li>
+            {% endif %}
+            {% assign verstatToolsRu = 'Торцовочные пилы,Рейсмусы,Монтажные пилы,Станки для заточки цепей'
+              | split: ','
+            %}
+
+            {% if verstatToolsRu contains collection.title %}
+              <li>
+                <a href="https://gorkabud.com.ua/ru/collections/verstaty-po-derevu-ta-metalu" aria-current="page"
+                  >Станки по дереву и металлу</a
+                >
+              </li>
+            {% endif %}
+            {% assign handTools = 'Викрутки,Будівельні степлери' | split: ',' %}
+
+            {% if handTools contains collection.title %}
+              <li>
+                <a
+                  href="https://gorkabud.com.ua/collections/slyusarno-stolyarni-instrumenty"
+                  aria-current="page"
+                  >Ручні інструменти</a
+                >
+              </li>
+            {% endif %}
+            {% assign handToolsRu = 'Отвертки,Строительные степлеры' | split: ',' %}
+
+            {% if handToolsRu contains collection.title %}
+              <li>
+                <a
+                  href="https://gorkabud.com.ua/ru/collections/slyusarno-stolyarni-instrumenty"
+                  aria-current="page"
+                  >Ручные инструменты</a
+                >
+              </li>
+            {% endif %}
+            <li>
+              <a href="{{ collection.url }}" aria-current="page">{{ collection.title }}</a>
+            </li>
+          {% endif %}
+
+        {% when 'blog' %}
+          {% if current_tags %}
+            <li>{{ blog.title | link_to: blog.url }}</li>
+            <li>
+              {% capture tag_url %}{{blog.url}}/tagged/{{ current_tags | join: "+" }}{% endcapture %}
+              <a href="{{ tag_url }}" aria-current="page">{{ current_tags | join: ' + ' }}</a>
+            </li>
+          {% else %}
+            <li>
+              <a href="{{ blog.url }}" aria-current="page">{{ blog.title }}</a>
+            </li>
+          {% endif %}
+
+        {% when 'article' %}
+          <li>{{ blog.title | link_to: blog.url }}</li>
+          <li>
+            <a href="{{ article.url }}" aria-current="page">{{ article.title }}</a>
+          </li>
+
+        {% else %}
+          <li aria-current="page">
+            <a href="{{ request.path }}" aria-current="page">{{ page_title }}</a>
+          </li>
+      {% endcase %}
+    </ol>
+  </nav>
+{% endunless %}
